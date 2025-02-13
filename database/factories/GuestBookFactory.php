@@ -19,7 +19,7 @@ class GuestBookFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'email' => $this->faker->email(),
-            'message' => $this->faker->sentence()
+            'message' => $this->faker->text()
         ];
     }
 }
