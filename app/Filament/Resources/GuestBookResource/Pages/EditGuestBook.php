@@ -16,4 +16,10 @@ class EditGuestBook extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    // redirect ketika berhasil edit data
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

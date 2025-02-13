@@ -6,9 +6,12 @@ use App\Filament\Resources\GuestBookResource\Pages;
 use App\Filament\Resources\GuestBookResource\RelationManagers;
 use App\Models\GuestBook;
 use Filament\Forms;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,7 +26,19 @@ class GuestBookResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('name')
+                    ->label('Nama')
+                    ->placeholder('Masukan Nama')
+                    ->required(),
+                TextInput::make('email')
+                    ->label('Email')
+                    ->placeholder('Masukan Email')
+                    ->email()
+                    ->required(),
+                Textarea::make('message')
+                    ->label('Pesan')
+                    ->placeholder('Masukan Pesan')
+                    ->required(),
             ]);
     }
 
@@ -31,13 +46,26 @@ class GuestBookResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name')
+                    ->label('Nama')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('email')
+                    ->label('Email')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('message')
+                    ->label('Pesan')
+                    ->wrap(),
+                // ->limit(20, '...'),
             ])
             ->filters([
                 //
             ])
+            ->defaultSort('id', 'desc') // sort data berdasarkan 'id' yang terakhir ditambahkan
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
